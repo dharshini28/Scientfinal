@@ -1,58 +1,27 @@
 import 'package:flutter/material.dart';
 
 void main() => runApp(MaterialApp(
-      title: 'PROJECTS',
-      home: Yearwiseprojectsdisplay(),
-    ));
+  title: 'PROJECTS',
+  home: Yearwiseprojectsdisplay(),
+));
 
 class Yearwiseprojectsdisplay extends StatelessWidget {
-  final toolname = [
-    'toolname1',
-    'toolname2',
-    'toolname3',
-    'toolname4',
-    'toolname5',
-    'toolname6',
-    'toolname7',
-    'toolname8',
-    'toolname9',
-    'toolname10'
-  ];
+  final toolname = ['toolname1','toolname2','toolname3','toolname4','toolname5','toolname6','toolname7'
+    ,'toolname8','toolname9','toolname10'];
 
-  final image = [
-    'imagestool/image1.jpg',
-    'imagestool/image2.jpg',
-    'imagestool/image3.jpg',
-    'imagestool/image4.jpg',
-    'imagestool/image5.jpg',
-    'imagestool/image6.jpg',
-    'imagestool/image7.jpg',
-    'imagestool/image8.jpg',
-    'imagestool/image9.jpg',
-    'imagestool/image10.jpg'
-  ];
+  final image = ['image1.jpg','image2.jpg','image3.jpg','image4.jpg','image5.jpg','image6.jpg','image7.jpg'
+    ,'image8.jpg','image9.jpg','image10.jpg'];
 
-  final description = [
-    'description1',
-    'description2',
-    'description3',
-    'description4',
-    'description5',
-    'description6',
-    'description7',
-    'description8',
-    'description9',
-    'description10'
-  ];
+
+  final description = ['description1','description2','description3','description4','description5','description6','description7'
+    ,'description8','description9','description10'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.lightGreen,
-        appBar: AppBar(
-          title: Text('PROJECTS'),
-          backgroundColor: Colors.amber,
-        ),
+        appBar: AppBar(title: Text('PROJECTS'),
+          backgroundColor: Colors.amber,),
         body: ListView.builder(
           itemCount: toolname.length,
           itemBuilder: (context, index) {
@@ -66,7 +35,7 @@ class Yearwiseprojectsdisplay extends StatelessWidget {
                       children: <Widget>[
                         FittedBox(
                           child: Image.asset(
-                            "assets/images/imagestool/${image[index]}",
+                            "assets/images/${image[index]}",
                             fit: BoxFit.fill,
                           ),
                           fit: BoxFit.fill,
@@ -78,35 +47,27 @@ class Yearwiseprojectsdisplay extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
-                              Text(toolname[index],
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 28)),
-                              Text(description[index],
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 22)),
+
+                              Text(toolname[index], style: TextStyle(color: Colors.white,fontSize: 28)),
+                              Text(description[index], style: TextStyle(color: Colors.white,fontSize: 22)),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
+                        ),],),
                   ),
-                  onTap: () {
+                  onTap: (){
                     String name = toolname[index];
                     String tooldescription = description[index];
                     String toolimage = image[index];
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              Projectsyear(name, tooldescription, toolimage),
+                          builder: (BuildContext context) => Projectsyear(name,tooldescription,toolimage),
                         ));
                   },
-                ),
-              ),
+                ),),
             );
           },
-        ));
-  }
+        ));}
 
   @override
   State<StatefulWidget> createState() {
@@ -114,7 +75,6 @@ class Yearwiseprojectsdisplay extends StatelessWidget {
     return null;
   }
 }
-
 class Projectsyear extends StatefulWidget {
   String name;
   String tooldescription;
@@ -122,15 +82,13 @@ class Projectsyear extends StatefulWidget {
   Projectsyear(this.name, this.tooldescription, this.toolimage);
   @override
   State<StatefulWidget> createState() {
-    return Projectsyearstate(this.name, this.tooldescription, this.toolimage);
-  }
-}
-
+    return Projectsyearstate(this.name,this.tooldescription,this.toolimage);
+  }}
 class Projectsyearstate extends State<Projectsyear> {
   String name;
   String tooldescription;
   String toolimage;
-  Projectsyearstate(this.name, this.tooldescription, this.toolimage);
+  Projectsyearstate(this.name,this.tooldescription,this.toolimage);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,7 +103,7 @@ class Projectsyearstate extends State<Projectsyear> {
             children: <Widget>[
               Center(
                 child: Image.asset(
-                  "assets/images/imagestools/${toolimage}",
+                  "assets/images/${toolimage}",
                 ),
               ),
               SizedBox(
@@ -158,6 +116,6 @@ class Projectsyearstate extends State<Projectsyear> {
               Center(child: Text(tooldescription)),
             ],
           ),
-        ));
-  }
-}
+        )
+
+    );}}

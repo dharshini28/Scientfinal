@@ -7,8 +7,8 @@ class ImageCarousel extends StatelessWidget {
     return Carousel(
       boxFit: BoxFit.cover,
       images: [
-        new AssetImage('assets/images/1.jpg'),
-        new AssetImage('assets/images/1.jpg'),
+        new AssetImage('assets/images/image1.jpg'),
+        new AssetImage('assets/images/image2.jpg'),
       ],
       animationCurve: Curves.fastOutSlowIn,
       animationDuration: Duration(seconds: 2),
