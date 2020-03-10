@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 void main() => runApp(MaterialApp(
   title: 'PROJECTS',
@@ -33,12 +34,8 @@ class Yearwiseprojectsdisplay extends StatelessWidget {
                     child: Stack(
                       alignment: Alignment.bottomLeft,
                       children: <Widget>[
-                        FittedBox(
-                          child: Image.asset(
-                            "assets/images/${image[index]}",
-                            fit: BoxFit.fill,
-                          ),
-                          fit: BoxFit.fill,
+                        Container(
+                          child: Image(image: AssetImage("assets/images/${image[index]}")),
                         ),
                         Container(
                           color: Colors.black.withOpacity(0.5),

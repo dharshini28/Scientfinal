@@ -178,7 +178,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Image(image: AssetImage('assets/images/image3.jpg')),
+                      Container(
+                          width:100,
+                          height:100,
+                          child: Image(image: AssetImage('assets/images/image3.jpg'))),
                       Text("Scient",
                           style: TextStyle(color: Colors.white, fontSize: 28)),
                     ],
