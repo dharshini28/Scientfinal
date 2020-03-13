@@ -1,11 +1,37 @@
 import 'package:flutter/cupertino.dart';
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 void main() => runApp(MaterialApp(
     title: 'Tools', debugShowCheckedModeBanner: false, home: Tools()));
 
-class Tools extends StatelessWidget {
+class Tools extends StatefulWidget {
   @override
+  HomePageState createState() => new HomePageState();
+}
+
+class HomePageState extends State<Tools> {
+  List data;
+
+  Future<String> getData() async {
+    var response = await http.get(
+        Uri.encodeFull("https://jsonplaceholder.typicode.com/photos"),
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+
+    this.setState(() {
+      data = json.decode(response.body);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.getData();
+  }
   final toolname = [
     'toolname1',
     'toolname2',
@@ -47,7 +73,7 @@ class Tools extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: Center(
@@ -59,6 +85,7 @@ class Tools extends StatelessWidget {
             tabs: <Widget>[
               Text('ELECTRICAL TOOLS'),
               Text('MECHANICAL TOOLS'),
+              Text('HEAVY MACHINERY'),
             ],
           ),
         ),
@@ -66,39 +93,24 @@ class Tools extends StatelessWidget {
           children: [
             GridView.count(
               crossAxisCount: 2,
-              children: List.generate(10, (index) {
+              children: List.generate(data.length, (index) {
                 return Center(
                   child: InkWell(
                     onTap: () {
                       print("Container clicked");
-                      String tool = toolname[index];
-                      String toolimage = image[index];
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                Individualtoolelectrical(tool, toolimage),
-                          ));
+
                     },
                     child: Container(
                       height: 150,
                       width: 150,
                       decoration: BoxDecoration(
-                          color: Colors.greenAccent,
                           image: DecorationImage(
-                            image: new AssetImage(
-                              "assets/images/${image[index]}",
-                            ),
+                            image: new NetworkImage(data[index]["url"]),
                           ),
-                          boxShadow: [
-                            new BoxShadow(
-                              color: Colors.black,
-                              blurRadius: 2.0,
-                            ),
-                          ]),
+                          ),
                       child: Center(
                         child: Text(
-                          toolname[index],
+                          data[index]["title"],
                         ),
                       ),
                     ),
@@ -108,30 +120,20 @@ class Tools extends StatelessWidget {
             ),
             GridView.count(
               crossAxisCount: 2,
-              children: List.generate(10, (index) {
+              children: List.generate(data.length, (index) {
                 return Center(
                     child: InkWell(
                         onTap: () {
                           print("Container clicked");
-                          String tool = toolname[index];
-                          String toolimage = image[index];
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    Individualtoolmechanical(tool, toolimage),
-                              ));
+
                         },
                         child: new Card(
                             child: Container(
                           height: 150,
                           width: 150,
                           decoration: BoxDecoration(
-                              color: Colors.greenAccent,
                               image: DecorationImage(
-                                image: new AssetImage(
-                                  "assets/images/${image[index]}",
-                                ),
+                                image: new NetworkImage(data[index]["url"]),
                               ),
                               boxShadow: [
                                 new BoxShadow(
@@ -141,10 +143,44 @@ class Tools extends StatelessWidget {
                               ]),
                           child: Center(
                             child: Text(
-                              toolname[index],
+                              data[index]["title"],
                             ),
                           ),
                         ))));
+              }),
+            ),
+            GridView.count(
+              crossAxisCount: 2,
+              children: List.generate(data.length, (index) {
+                return Center(
+                  child: InkWell(
+                    onTap: () {
+                      print("Container clicked");
+                      String tool = toolname[index];
+                      String toolimage = image[index];
+
+                    },
+                    child: Container(
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: new NetworkImage(data[index]["url"]),
+                          ),
+                          boxShadow: [
+                            new BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 2.0,
+                            ),
+                          ]),
+                      child: Center(
+                        child: Text(
+                          data[index]['title'],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
               }),
             ),
           ],
@@ -154,135 +190,3 @@ class Tools extends StatelessWidget {
   }
 }
 
-class Individualtoolelectrical extends StatefulWidget {
-  String tool;
-  String toolimage;
-  Individualtoolelectrical(this.tool, this.toolimage);
-  @override
-  State<StatefulWidget> createState() {
-    return Individualtoolelectricalstate(this.tool, this.toolimage);
-  }
-}
-
-class Individualtoolelectricalstate extends State<Individualtoolelectrical> {
-  String tool;
-  String toolimage;
-
-  Individualtoolelectricalstate(this.tool, this.toolimage);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text('PROJECTS'),
-        ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(80.0),
-            child: Container(
-              height: 200,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Card(
-                      child: Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.greenAccent,
-                          image: DecorationImage(
-                            image: new AssetImage(
-                              "assets/images/${toolimage}",
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      child: Container(
-                          child: Center(
-                              child: Text(tool,
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 28))),
-                          color: Colors.amberAccent),
-                    ),
-                    Card(
-                      child: Container(
-                          child: Center(
-                              child: Text('description',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 28))),
-                          color: Colors.amberAccent),
-                    ),
-                  ]),
-            ),
-          ),
-        ));
-  }
-}
-
-class Individualtoolmechanical extends StatefulWidget {
-  Individualtoolmechanical(this.tool, this.toolimage);
-  String tool;
-  String toolimage;
-  @override
-  State<StatefulWidget> createState() {
-    return Individualtoolmechanicalstate(this.tool, this.toolimage);
-  }
-}
-
-class Individualtoolmechanicalstate extends State<Individualtoolmechanical> {
-  String tool;
-  String toolimage;
-  Individualtoolmechanicalstate(this.tool, this.toolimage);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text('PROJECTS'),
-        ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(80.0),
-            child: Container(
-              height: 200,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Card(
-                      child: Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.greenAccent,
-                          image: DecorationImage(
-                            image: new AssetImage(
-                              "assets/images/${toolimage}",
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      child: Container(
-                          child: Center(
-                              child: Text(tool,
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 28))),
-                          color: Colors.amberAccent),
-                    ),
-                    Card(
-                      child: Container(
-                          child: Center(
-                              child: Text('description',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 28))),
-                          color: Colors.amberAccent),
-                    ),
-                  ]),
-            ),
-          ),
-        ));
-  }
-}

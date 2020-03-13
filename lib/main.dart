@@ -212,6 +212,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                 },
               ),
+              Divider(
+                color: Theme.of(context).primaryColorDark,
+              ),
               ListTile(
                 leading: Icon(Icons.contact_mail),
                 trailing: GestureDetector(
